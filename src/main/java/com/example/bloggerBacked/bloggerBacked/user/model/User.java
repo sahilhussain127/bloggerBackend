@@ -1,6 +1,6 @@
-package com.example.bloggerBacked.bloggerBacked.model;
+package com.example.bloggerBacked.bloggerBacked.user.model;
 import jakarta.persistence.*;
-        import lombok.*;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
