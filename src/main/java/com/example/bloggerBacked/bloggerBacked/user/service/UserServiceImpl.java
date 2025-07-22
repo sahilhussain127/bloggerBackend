@@ -2,6 +2,8 @@ package com.example.bloggerBacked.bloggerBacked.user.service;
 import com.example.bloggerBacked.bloggerBacked.user.model.User;
 import com.example.bloggerBacked.bloggerBacked.user.repository.UserRepository;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteUserById(UUID id) {
         if (!userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  User updateUser(Long id, User newUser)
+    public  User updateUser(UUID id, User newUser)
     {
         User existingUser = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User Not Found"));
         existingUser.setUsername(newUser.getUsername());
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  User getUser (Long id)
+    public  User getUser (UUID id)
     {
         User targetUser = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
         return targetUser;

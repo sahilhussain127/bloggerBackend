@@ -1,12 +1,13 @@
 package com.example.bloggerBacked.bloggerBacked.user.service;
 import com.example.bloggerBacked.bloggerBacked.user.model.User;
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
     User createUser(User user);
     List<User> getAllUsers();
-    void deleteUserById(Long id);
-    User updateUser(Long id,User user);
-    User getUser(Long id);
+    void deleteUserById(UUID id);
+    User updateUser(UUID id, User user);
+    User getUser(UUID id);
 
 }
