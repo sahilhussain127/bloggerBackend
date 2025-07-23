@@ -1,12 +1,13 @@
 package com.example.bloggerBacked.bloggerBacked.user.controller;
+import com.example.bloggerBacked.bloggerBacked.common.JwtUtil;
 import com.example.bloggerBacked.bloggerBacked.user.model.User;
 import com.example.bloggerBacked.bloggerBacked.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -15,6 +16,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
 
     //Create User
@@ -56,6 +60,17 @@ public class UserController {
 
 
     //Verify User
+//    @GetMapping("/verify")
+//    public ResponseEntity<?> getUser(@RequestParam String email, @RequestParam String password) {
+//        User user = userService.verifyUser(email, password);
+//
+//        if (user == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+//        }
+//
+//        return ResponseEntity.ok(user);
+//    }
+
     @GetMapping("/verify")
     public ResponseEntity<?> getUser(@RequestParam String email, @RequestParam String password) {
         User user = userService.verifyUser(email, password);
@@ -64,6 +79,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
 
-        return ResponseEntity.ok(user);
+        String token = jwtUtil.generateToken(user.getEmail()); // or user.getEmail()
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("user", user); // assuming your `User` doesn't expose password or sensitive info
+
+        return ResponseEntity.ok(response);
     }
 }
