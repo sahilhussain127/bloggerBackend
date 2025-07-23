@@ -38,7 +38,7 @@ public class BlogServiceImpl implements BlogService {
 
         blog.setUser(user); // this will set user_id foreign key
         blog.setCreatedById(user.getId());
-        blog.setCreatedByName(user.getUsername());
+        blog.setCreatedByName(user.getFirstName());
 
         Blog savedBlog = blogRepository.save(blog);
         return savedBlog;

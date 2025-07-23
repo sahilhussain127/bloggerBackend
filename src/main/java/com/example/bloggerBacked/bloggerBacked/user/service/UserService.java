@@ -9,5 +9,6 @@ public interface UserService {
     void deleteUserById(UUID id);
     User updateUser(UUID id, User user);
     User getUser(UUID id);
+    User verifyUser(String email,String password);
 
 }

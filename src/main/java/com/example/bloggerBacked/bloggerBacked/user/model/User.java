@@ -1,6 +1,8 @@
 package com.example.bloggerBacked.bloggerBacked.user.model;
 import com.example.bloggerBacked.bloggerBacked.blog.model.Blog;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,6 +16,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder(alphabetic = true)
 public class User {
 
     @Id
@@ -22,8 +25,13 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
     
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @Column(name = "first_name", nullable = false)
+    @JsonProperty("first_name")
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    @JsonProperty("last_name")
+    private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;

@@ -15,21 +15,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+
+    //Create User
     @Override
     public User createUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already registered");
-        }   else if (userRepository.existsByUsername(user.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already registered");
         }
         return userRepository.save(user);
     }
 
+
+    //Get All User
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+
+    //Delete User
     @Override
     public void deleteUserById(UUID id) {
         if (!userRepository.existsById(id)) {
@@ -38,20 +42,36 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+
+    //Update User
     @Override
     public  User updateUser(UUID id, User newUser)
     {
         User existingUser = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User Not Found"));
-        existingUser.setUsername(newUser.getUsername());
+        existingUser.setFirstName(newUser.getFirstName());
+        existingUser.setLastName(newUser.getLastName());
         return userRepository.save(existingUser);
     }
 
+
+    //Get Single User
     @Override
     public  User getUser (UUID id)
     {
         User targetUser = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
         return targetUser;
     }
+
+
+    //Get Single User
+    @Override
+    public  User verifyUser (String email,String password)
+    {
+        User targetUser = userRepository.findByEmailAndPassword(email,password);
+
+        return targetUser;
+    }
+
 
 
 }
