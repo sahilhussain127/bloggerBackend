@@ -1,6 +1,7 @@
 package com.example.bloggerBacked.bloggerBacked.blog.model;
 import com.example.bloggerBacked.bloggerBacked.user.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,11 +21,18 @@ public class Blog {
     @Column(name = "id",updatable = false,nullable = false)
     private UUID id;
 
+    @Column(name = "created_at", nullable = false)
+    @JsonProperty("created_at")
+    private String createdAt;
+
     @Column(name = "title",nullable = false)
     private String title;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "description",length = 1000)
+    private String description;
+
+    @Column(name = "category")
+    private String category;
 
     @Column(name = "likes")
     private int likes;
@@ -35,8 +43,13 @@ public class Blog {
     @Column(name = "created_by_id", nullable = false)
     private UUID createdById;
 
-    @Column(name = "created_by_name", nullable = false)
+    @Column(name = "created_by_name", nullable = false )
+    @JsonProperty("created_by")
     private String createdByName;
+
+    @Lob
+    @Column(name = "thumbnail", columnDefinition = "LONGBLOB")
+    private byte[] thumbnail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

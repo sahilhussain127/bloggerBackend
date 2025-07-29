@@ -2,6 +2,9 @@ package com.example.bloggerBacked.bloggerBacked.blog.service;
 import com.example.bloggerBacked.bloggerBacked.blog.service.BlogService;
 import com.example.bloggerBacked.bloggerBacked.blog.model.Blog;
 import com.example.bloggerBacked.bloggerBacked.blog.repository.BlogRepository;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,10 +42,33 @@ public class BlogServiceImpl implements BlogService {
         blog.setUser(user); // this will set user_id foreign key
         blog.setCreatedById(user.getId());
         blog.setCreatedByName(user.getFirstName());
-
+        blog.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         Blog savedBlog = blogRepository.save(blog);
         return savedBlog;
     }
+
+    @Override
+    public Blog getSingleBlog(UUID id) {
+//        if (!blogRepository.existsById(id)) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Blog not found");
+//        }
+//      return blogRepository.findById(id);
+
+        Blog blog = blogRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+        return blog;
+    }
+
+
+
+
+    @Override
+    public void deleteBlogById(UUID id) {
+        if (!blogRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Blog not found");
+        }
+        blogRepository.deleteById(id);
+    }
+
 
     @Override
     public List<Blog> getAllBlogs(){

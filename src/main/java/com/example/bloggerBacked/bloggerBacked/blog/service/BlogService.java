@@ -6,4 +6,7 @@ import java.util.UUID;
 public interface BlogService {
     Blog createBlog(Blog user);
     List<Blog> getAllBlogs();
+    void deleteBlogById(UUID id);
+    Blog getSingleBlog(UUID id);
+
 }

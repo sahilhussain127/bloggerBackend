@@ -2,8 +2,12 @@ package com.example.bloggerBacked.bloggerBacked.blog.controller;
 import com.example.bloggerBacked.bloggerBacked.blog.model.Blog;
 import com.example.bloggerBacked.bloggerBacked.blog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,16 +19,54 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @PostMapping
-    public Blog createBlog(@RequestBody Blog blog) {
-        return blogService.createBlog(blog);
+//    @PostMapping
+//    public Blog createBlog(@RequestBody Blog blog) {
+//        return blogService.createBlog(blog);
+//    }
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Blog createBlog(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("category") String category,
+            @RequestParam("createdById") UUID createdById,
+            @RequestParam("thumbnail") MultipartFile thumbnailFile
+    ) {
+        Blog blog = new Blog();
+        blog.setTitle(title);
+        blog.setDescription(description);
+        blog.setCategory(category);
+        blog.setCreatedById(createdById);
+
+        try {
+            blog.setThumbnail(thumbnailFile.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading thumbnail", e);
+        }
+
+        return blogService.createBlog(blog); // your existing service method
     }
+
 
     @GetMapping
     public List<Blog> getAllBlogs()
     {
         return blogService.getAllBlogs();
     }
+
+
+    @GetMapping("/{id}")
+    public Blog getSingleBlog(@PathVariable UUID id)
+    {
+        return blogService.getSingleBlog((id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBlog(@PathVariable UUID id) {
+        blogService.deleteBlogById(id);
+        return ResponseEntity.ok("Blog deleted successfully");
+    }
+
 
 
 }

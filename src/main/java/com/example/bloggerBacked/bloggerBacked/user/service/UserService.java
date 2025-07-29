@@ -10,5 +10,6 @@ public interface UserService {
     User updateUser(UUID id, User user);
     User getUser(UUID id);
     User verifyUser(String email,String password);
+    User getUserByEmail(String email);
 
 }
