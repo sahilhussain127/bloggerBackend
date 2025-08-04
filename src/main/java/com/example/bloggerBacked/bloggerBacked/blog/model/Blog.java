@@ -28,7 +28,8 @@ public class Blog {
     @Column(name = "title",nullable = false)
     private String title;
 
-    @Column(name = "description",length = 1000)
+    @Lob
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "category")

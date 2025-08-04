@@ -44,8 +44,9 @@ public class BlogController {
             throw new RuntimeException("Error reading thumbnail", e);
         }
 
-        return blogService.createBlog(blog); // your existing service method
+        return blogService.createBlog(blog);
     }
+
 
 
     @GetMapping
