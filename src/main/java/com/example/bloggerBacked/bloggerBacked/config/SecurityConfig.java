@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/blogs").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users/listAllUsers").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/users/delete/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/blogs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
