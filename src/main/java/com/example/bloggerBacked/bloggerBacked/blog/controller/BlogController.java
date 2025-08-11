@@ -19,34 +19,10 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-//    @PostMapping
-//    public Blog createBlog(@RequestBody Blog blog) {
-//        return blogService.createBlog(blog);
-//    }
-
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Blog createBlog(
-            @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("category") String category,
-            @RequestParam("createdById") UUID createdById,
-            @RequestParam("thumbnail") MultipartFile thumbnailFile
-    ) {
-        Blog blog = new Blog();
-        blog.setTitle(title);
-        blog.setDescription(description);
-        blog.setCategory(category);
-        blog.setCreatedById(createdById);
-
-        try {
-            blog.setThumbnail(thumbnailFile.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading thumbnail", e);
-        }
-
+    @PostMapping
+    public Blog createBlog(@RequestBody Blog blog) {
         return blogService.createBlog(blog);
     }
-
 
 
     @GetMapping

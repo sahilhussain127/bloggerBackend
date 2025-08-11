@@ -48,9 +48,8 @@ public class Blog {
     @JsonProperty("created_by")
     private String createdByName;
 
-    @Lob
-    @Column(name = "thumbnail", columnDefinition = "LONGBLOB")
-    private byte[] thumbnail;
+    @Column(name = "picture")
+    private String picture;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
